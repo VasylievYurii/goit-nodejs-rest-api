@@ -4,12 +4,20 @@ const ctrlWrapper = require("../decorators/ctrlWrapper.js");
 
 const getAll = async (req, res) => {
   const { _id: owner } = req.user;
-  const { page = 1, limit = 20, favorite } = req.query;
+  const { page = 1, limit = 20, favorite, name, email } = req.query;
   const skip = (page - 1) * limit;
   const query = { owner };
 
   if (favorite !== undefined) {
     query.favorite = favorite === "true";
+  }
+
+  if (name) {
+    query.name = { $regex: new RegExp(name, "i") };
+  }
+
+  if (email) {
+    query.email = { $regex: new RegExp(email, "i") };
   }
 
   const result = await Contact.find(query, "-createdAt -updatedAt", {
