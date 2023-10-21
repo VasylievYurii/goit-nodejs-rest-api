@@ -2,6 +2,7 @@ const express = require("express");
 const contactsControllers = require("../../controllers/contacts-controllers.js");
 const isEmptyBody = require("../../middlewares/isEmptyBody.js");
 const isValidId = require("../../middlewares/isValidId.js");
+
 const authenticate = require("../../middlewares/authenticate.js");
 const validateBody = require("../../decorators/validateBody.js");
 const {
