@@ -5,6 +5,7 @@ const authenticate = require("../../middlewares/authenticate.js");
 const validateBody = require("../../decorators/validateBody.js");
 const { userSignUpSchema, userSignInSchema } = require("../../models/User.js");
 const upload = require("../../middlewares/upload.js");
+const resizeAvatar = require("../../middlewares/resizeAvatar.js");
 
 const userSignUpValidate = validateBody(userSignUpSchema);
 const userSignInValidate = validateBody(userSignInSchema);
@@ -14,6 +15,7 @@ const authRouter = express.Router();
 authRouter.post(
   "/register",
   upload.single("avatarURL"),
+  resizeAvatar,
   isEmptyBody,
   userSignUpValidate,
   authController.signup
@@ -35,6 +37,7 @@ authRouter.patch("/", authenticate, authController.updateSubscription);
 authRouter.patch(
   "/avatars",
   upload.single("avatarURL"),
+  resizeAvatar,
   authenticate,
   authController.updateAvatar
 );
