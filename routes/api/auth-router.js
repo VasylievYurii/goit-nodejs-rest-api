@@ -36,9 +36,9 @@ authRouter.patch("/", authenticate, authController.updateSubscription);
 
 authRouter.patch(
   "/avatars",
+  authenticate,
   upload.single("avatarURL"),
   resizeAvatar,
-  authenticate,
   authController.updateAvatar
 );
 
