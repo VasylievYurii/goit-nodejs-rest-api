@@ -3,12 +3,17 @@ const authController = require("../../controllers/auth-controller.js");
 const isEmptyBody = require("../../middlewares/isEmptyBody.js");
 const authenticate = require("../../middlewares/authenticate.js");
 const validateBody = require("../../decorators/validateBody.js");
-const { userSignUpSchema, userSignInSchema } = require("../../models/User.js");
+const {
+  userSignUpSchema,
+  userSignInSchema,
+  userEmailSchema,
+} = require("../../models/User.js");
 const upload = require("../../middlewares/upload.js");
 const resizeAvatar = require("../../middlewares/resizeAvatar.js");
 
 const userSignUpValidate = validateBody(userSignUpSchema);
 const userSignInValidate = validateBody(userSignInSchema);
+const userEmailValidate = validateBody(userEmailSchema);
 
 const authRouter = express.Router();
 
@@ -20,6 +25,9 @@ authRouter.post(
   userSignUpValidate,
   authController.signup
 );
+
+authRouter.get("/verify/:verificationToken", authController.verify);
+authRouter.post("/verify", userEmailValidate, authController.resendVerifyEmail);
 
 authRouter.post(
   "/login",
