@@ -77,9 +77,7 @@ const verify = async (req, res) => {
 
 const resendVerifyEmail = async (req, res) => {
   const { email } = req.body;
-  console.log("email:", email);
   const user = await User.findOne({ email });
-  console.log("user:", user);
 
   if (!user) {
     throw HttpError(404, "User not found");
@@ -94,7 +92,7 @@ const resendVerifyEmail = async (req, res) => {
     subject: "Validation",
     html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Підтвердіть пошту</a>`,
   };
-  console.log("send");
+
   await sendEmail(verifyEmail);
 
   res.json({
